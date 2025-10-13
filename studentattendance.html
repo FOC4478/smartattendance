@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance History</title>
+  <link rel="stylesheet" href="studentattendance.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">Smart Attendance</div>
+    <ul class="nav-links">
+      <li><a href="studentdashboard.html">Dashboard</a></li>
+      <li><a href="studentattendance.html" class="active">Attendance History</a></li>
+      <li><a href="studentprofile.html">Profile</a></li>
+      <li><a href="logout.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <div class="hamburger">&#9776;</div>
+      <h2>Attendance History</h2>
+    </header>
+
+    <section class="attendance-section">
+      <table id="attendanceTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Course</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be inserted dynamically -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="studentattendance.js"></script>
+</body>
+</html>

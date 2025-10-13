@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="studentdashboard.css" />
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">Smart Attendance</div>
+    <ul class="nav-links">
+      <li><a href="studentdashboard.html" class="active">Dashboard</a></li>
+      <li><a href="studentattendance.html">Attendance History</a></li>
+      <li><a href="studentprofile.html">Profile</a></li>
+      <li><a href="logout.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header>
+      <div class="hamburger">&#9776;</div>
+      <h2 id="studentName">Welcome, Student</h2>
+    </header>
+
+    <section class="dashboard-content">
+      <div class="card">
+        <h3>Total Attendance</h3>
+        <p id="attendancePercent">--%</p>
+      </div>
+      <div class="card">
+        <h3>Present Days</h3>
+        <p id="presentDays">--</p>
+      </div>
+      <div class="card">
+        <h3>Absent Days</h3>
+        <p id="absentDays">--</p>
+      </div>
+    </section>
+  </div>
+
+  <script src="studentdashboard.js"></script>
+</body>
+</html>
+
+

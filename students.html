@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Students | Smart Attendance</title>
+  <link rel="stylesheet" href="students.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2 class="navbar-brand"> Smart Attendance - Admin</h2>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li><a href="admin.html">Dashboard</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li class="active"><a href="students.html">Students</a></li>
+      <li><a href="attendance.html">Take Attendance</a></li>
+      <li><a href="reports.html">Reports</a></li>
+      <button class="btn btn-outline-light btn-sm" id="logoutBtn">Logout</button>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h3>Manage Students</h3>
+
+    <!-- Add Student Form -->
+    <div class="student-form">
+      <h4>Add New Student</h4>
+      <form id="addStudentForm">
+        <input type="text" id="studentName" placeholder="Full Name" required>
+        <input type="text" id="studentID" placeholder="Student ID" required>
+        <select id="courseSelect" required>
+          <option value="">Select Course</option>
+          <!-- Courses will load dynamically -->
+        </select>
+        <button type="submit">Add Student</button>
+      </form>
+    </div>
+
+    <!-- Students Table -->
+    <div class="student-table">
+      <h4>Existing Students</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Student ID</th>
+            <th>Course</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody">
+          <!-- Dynamic data from backend -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="students.js"></script>
+</body>
+</html>

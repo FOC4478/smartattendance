@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Smart Attendance System</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <!-- <header>
+    <nav class="navbar">
+      <h1>Smart Attendance System</h1>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html" class="active">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+      </ul>
+    </nav>
+  </header> -->
+
+  <section class="login-section">
+    <div class="login-container">
+      <h2>Login</h2>
+      <p>Select your role and sign in to your account</p>
+
+      <form action="login.php" method="POST" class="login-form">
+        <label for="role">Login As:</label>
+        <select name="role" id="role" required>
+          <option value="">-- Select Role --</option>
+          <option value="admin">Admin</option>
+          <option value="student">Student</option>
+        </select>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+        <button type="submit" class="btn">Login</button>
+      </form>
+
+      <p class="register-text">Don't have an account? 
+        <a href="register.html">Register here</a>
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Smart Attendance System | All Rights Reserved</p>
+  </footer>
+
+  <script src="login.js"></script>
+</body>
+</html>

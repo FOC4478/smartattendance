@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Take Attendance | Smart Attendance</title>
+  <link rel="stylesheet" href="attendance.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2 class="navbar-brand">Smart Attendance - Admin</h2>
+   
+
+    <!-- Hamburger -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="admin.html">Dashboard</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li><a href="students.html">Students</a></li>
+      <li class="active"><a href="attendance.html">Take Attendance</a></li>
+      <li><a href="reports.html">Reports</a></li>
+       <button class="btn">Logout</button>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h3>Take Attendance</h3>
+
+    <!-- Scanner Section -->
+    <div class="scanner-box">
+      <h4>Scan Student ID Barcode</h4>
+      <input type="text" id="barcodeInput" placeholder="Scan barcode here..." autofocus />
+      <p id="statusMessage"></p>
+    </div>
+
+    <!-- Scanned Info -->
+    <div class="scanned-info" id="scannedInfo">
+      <p>No student scanned yet.</p>
+    </div>
+
+    <!-- Attendance Table -->
+    <div class="attendance-table">
+      <h4>Today's Attendance</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="attendanceTableBody">
+          <!-- Dynamic rows -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="attendance.js"></script>
+</body>
+</html>
+
+

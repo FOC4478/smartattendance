@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Courses | Smart Attendance</title>
+  <link rel="stylesheet" href="courses.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2 class="navbar-brand">Smart Attendance - Admin</h2>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li><a href="admin.html">Dashboard</a></li>
+      <li class="active"><a href="courses.html">Courses</a></li>
+      <li><a href="students.html">Students</a></li>
+      <li><a href="attendance.html">Take Attendance</a></li>
+      <li><a href="reports.html">Reports</a></li>
+      <button class="btn btn-outline-light btn-sm">Logout</button>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h3>Manage Courses</h3>
+
+    <div class="course-form">
+      <h4>Add New Course</h4>
+      <form id="addCourseForm">
+        <input type="text" id="courseName" placeholder="Course Name" required>
+        <input type="text" id="courseCode" placeholder="Course Code" required>
+        <button type="submit">Add Course</button>
+      </form>
+    </div>
+
+    <div class="course-table">
+      <h4>Existing Courses</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Course Name</th>
+            <th>Course Code</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="courseTableBody">
+          <!-- Dynamic rows will appear here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="courses.js"></script>
+</body>
+</html>

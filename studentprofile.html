@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Profile</title>
+  <link rel="stylesheet" href="profile.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">Smart Attendance</div>
+    <ul class="nav-links">
+      <li><a href="studentdashboard.html">Dashboard</a></li>
+      <li><a href="studentattendance.html">Attendance History</a></li>
+      <li><a href="studentprofile.html" class="active">Profile</a></li>
+      <li><a href="logout.html">Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <header>
+      <div class="hamburger">&#9776;</div>
+      <h2>Student Profile</h2>
+    </header>
+
+    <section class="profile-section">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <img src="assets/default-avatar.png" alt="Profile Picture">
+        </div>
+
+        <div class="profile-details">
+          <h3 id="studentName">Loading...</h3>
+          <p><strong>Email:</strong> <span id="studentEmail">Loading...</span></p>
+          <p><strong>Department:</strong> <span id="studentDept">Loading...</span></p>
+          <p><strong>Course:</strong> <span id="studentCourse">Loading...</span></p>
+          <p><strong>Matric No:</strong> <span id="studentMatric">Loading...</span></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="profile.js"></script>
+</body>
+</html>
