@@ -1,17 +1,27 @@
 <?php
 session_start();
-include 'db_connect.php';
+include 'db_connect.php'; 
 
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $role = $_POST['role']; // admin or student
-    $username = trim($_POST['email']);
+    $role = $_POST['role'];
+    $email = trim($_POST['email']);
     $password = trim($_POST['password']);
 
-    if ($role === "admin") {
-        $sql = "SELECT * FROM admin WHERE email = ?";
-    } else {
+    // Validate role selection
+    if (empty($role)) {
+        echo "⚠️ Please select a role.";
+        exit;
+    }
+
+    if ($role === 'student') {
+        // STUDENT LOGIN LOGIC
         $sql = "SELECT * FROM students WHERE email = ?";
+    } elseif ($role === 'admin') {
+        // ADMIN LOGIN LOGIC
+        $sql = "SELECT * FROM admins WHERE email = ?";
+    } else {
+        echo "⚠️ Invalid role selected.";
+        exit;
     }
 
     $stmt = $conn->prepare($sql);
@@ -22,25 +32,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        // Check password
         if (password_verify($password, $user['password'])) {
-            $_SESSION['username'] = $email;
-            $_SESSION['role'] = $role;
-
-            if ($role === "admin") {
-                header("Location: admin.php");
+            // ✅ Login success
+            if ($role === 'student') {
+                $_SESSION['student_id'] = $user['student_id'];
+                $_SESSION['student_name'] = $user['full_name'];
+                echo "studentdashboard.php"; // JavaScript will redirect here
             } else {
-                header("Location: studentdashboard.php");
+                $_SESSION['admin_id'] = $user['admin_id'];
+                $_SESSION['admin_name'] = $user['full_name'];
+                echo "admin.php"; // JavaScript will redirect here
             }
-            exit;
         } else {
-            echo "<script>alert('Invalid password'); window.history.back();</script>";
+            echo "❌ Invalid password. Please try again.";
         }
     } else {
-        echo "<script>alert('User not found'); window.history.back();</script>";
+        echo "⚠️ No account found with that email.";
     }
 
     $stmt->close();
     $conn->close();
 }
 ?>
+

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       if (data.success) {
         // Redirect to login page after logout
-        window.location.href = "../login.html";
+        window.location.href = "login.html";
       } else {
         alert("Logout failed. Please try again.");
       }

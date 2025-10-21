@@ -1,53 +1,120 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const reportTableBody = document.getElementById('reportTableBody');
-  const filterBtn = document.getElementById('filterBtn');
-  const exportBtn = document.getElementById('exportBtn');
-  const hamburger = document.getElementById('hamburger');
-  const sidebar = document.getElementById('sidebar');
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburger");
+  const sidebar = document.getElementById("sidebar");
+  const courseSelect = document.getElementById("courseSelect");
+  const dateInput = document.getElementById("dateInput");
+   const filterBtn = document.getElementById("filterBtn");
+  const exportPDF = document.getElementById("exportPDF");
+  const exportCSV = document.getElementById("exportCSV");
+  const reportTableBody = document.getElementById("reportTableBody");
+  const totalPresent = document.getElementById("presentCount");
+  const totalAbsent = document.getElementById("absentCount");
+  const attendancePercent = document.getElementById("attendancePercent");
 
-  // Sample data
-  const reports = [
-    { id: '' , name: '', course: '', date: '', status: '' },
-    { id: '', name: '', course: '', date: '', status: '' },
-    { id: '', name: '', course: '', date: '', status: '' },
-  ];
+ // Sidebar toggle for mobile
+  hamburger.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+  });
 
-  function displayReports(data) {
-    reportTableBody.innerHTML = '';
-    data.forEach(r => {
-      const row = `
-        <tr>
-          <td>${r.id}</td>
-          <td>${r.name}</td>
-          <td>${r.course}</td>
-          <td>${r.date}</td>
-          <td>${r.status}</td>
-        </tr>`;
-      reportTableBody.innerHTML += row;
+  // Load Courses
+  async function loadCourses() {
+    const res = await fetch("get_courses.php");
+    const courses = await res.json();
+    courseSelect.innerHTML = `<option value="">Select Course</option>`;
+    courses.forEach(c => {
+      const opt = document.createElement("option");
+      opt.value = c.id;
+      opt.textContent = c.course_name;
+      courseSelect.appendChild(opt);
     });
   }
 
-  displayReports(reports);
+  // Load Reports
+  async function loadReports() {
+    const courseId = courseSelect.value;
+    const date = dateInput.value;
+    const query = new URLSearchParams({ course_id: courseId, date }).toString();
 
-  // Filter logic
-  filterBtn.addEventListener('click', () => {
-    const course = document.getElementById('courseFilter').value;
-    const date = document.getElementById('dateFilter').value;
+    const res = await fetch(`get_reports.php?${query}`);
+    const records = await res.json();
 
-    const filtered = reports.filter(r => {
-      return (!course || r.course === course) && (!date || r.date === date);
+    reportTableBody.innerHTML = "";
+    if (records.length === 0) {
+      reportTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No records found</td></tr>`;
+      updateSummary([]);
+      return;
+    }
+
+    records.forEach((r, i) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${r.full_name}</td>
+        <td>${r.course_name}</td>
+        <td>${r.date_marked}</td>
+        <td>${r.time_marked}</td>
+        <td class="${r.status === 'Present' ? 'text-success' : 'text-danger'}">${r.status}</td>
+      `;
+      reportTableBody.appendChild(row);
     });
 
-    displayReports(filtered);
+    updateSummary(records);
+  }
+
+  // Update Summary
+  function updateSummary(records) {
+    const total = records.length;
+    const present = records.filter(r => r.status === "Present").length;
+    const absent = total - present;
+    const percent = total ? ((present / total) * 100).toFixed(1) : 0;
+
+    totalPresent.textContent = present;
+    totalAbsent.textContent = absent;
+    attendancePercent.textContent = percent + "%";
+  }
+
+  // Filter Button
+  document.getElementById("filterForm").addEventListener("submit", e => {
+    e.preventDefault();
+    loadReports();
   });
 
-  // Export logic
-  exportBtn.addEventListener('click', () => {
-    alert('Report exported successfully!');
+  // Export CSV
+  document.getElementById("exportCSV").addEventListener("click", () => {
+    const rows = [["#", "Student Name", "Course", "Date", "Time", "Status"]];
+    document.querySelectorAll("#reportTableBody tr").forEach(tr => {
+      const cols = Array.from(tr.children).map(td => td.textContent);
+      rows.push(cols);
+    });
+
+    const csv = rows.map(r => r.join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "attendance_report.csv";
+    link.click();
   });
 
-  // Hamburger toggle
-  hamburger.addEventListener('click', () => {
-    sidebar.classList.toggle('active');
+  // Export PDF
+  document.getElementById("exportPDF").addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Attendance Report", 14, 15);
+    const rows = [];
+    document.querySelectorAll("#reportTableBody tr").forEach(tr => {
+      rows.push(Array.from(tr.children).map(td => td.textContent));
+    });
+    doc.autoTable({
+      head: [["#", "Student Name", "Course", "Date", "Time", "Status"]],
+      body: rows,
+      startY: 25,
+    });
+    doc.save("attendance_report.pdf");
   });
+
+  loadCourses();
+  loadReports();
 });
+
+
+

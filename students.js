@@ -1,135 +1,252 @@
 document.addEventListener('DOMContentLoaded', () => {
-const hamburger = document.getElementById("hamburger");
-const sidebar = document.querySelector(".sidebar");
-const modal = document.getElementById("studentModal");
-const openBtn = document.getElementById("addStudentBtn");
-const closeBtn = document.querySelector(".closeBtn");
-const form = document.getElementById("studentForm");
-const modalTitle = document.getElementById("modalTitle");
-const studentTableBody = document.getElementById("studentTableBody");
-const searchInput = document.getElementById("searchStudent");
+  const hamburger = document.getElementById("hamburger");
+  const sidebar = document.querySelector(".sidebar");
+  const addForm = document.getElementById("addStudentForm");
+  const courseSelect = document.getElementById("courseSelect");
+  const studentTableBody = document.getElementById("studentTableBody");
 
-hamburger.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-});
+  // Sidebar toggle for mobile
+  hamburger.addEventListener("click", () => {
+    sidebar.classList.toggle("active");
+  });
 
+  // Load courses into the dropdown
+  async function loadCourses() {
+    try {
+      const res = await fetch("get_courses.php");
+      const courses = await res.json();
 
-let editMode = false;
-let editStudentId = null;
-
-// Open modal for new student
-openBtn.addEventListener("click", () => {
-  modal.style.display = "block";
-  modalTitle.textContent = "Add Student";
-  form.reset();
-  editMode = false;
-});
-
-// Close modal
-closeBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-window.addEventListener("click", (e) => {
-  if (e.target === modal) modal.style.display = "none";
-});
-
-// Load students
-async function loadStudents() {
-  try {
-    const response = await fetch("backend/get_students.php");
-    const students = await response.json();
-
-    studentTableBody.innerHTML = "";
-    students.forEach(student => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${student.id}</td>
-        <td>${student.full_name}</td>
-        <td>${student.email}</td>
-        <td>${student.course}</td>
-        <td>
-          <button class="editBtn" data-id="${student.id}">Edit</button>
-          <button class="deleteBtn" data-id="${student.id}">Delete</button>
-        </td>
-      `;
-      studentTableBody.appendChild(row);
-    });
-
-    attachRowEvents();
-  } catch (error) {
-    console.error("Error loading students:", error);
-  }
-}
-
-// Add or update student
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(form);
-  if (editMode) formData.append("id", editStudentId);
-  const endpoint = editMode ? "backend/update_student.php" : "backend/add_student.php";
-
-  try {
-    const response = await fetch(endpoint, { method: "POST", body: formData });
-    const result = await response.json();
-    alert(result.message);
-    if (result.success) {
-      modal.style.display = "none";
-      loadStudents();
+      courseSelect.innerHTML = `<option value="">Select Course</option>`;
+      courses.forEach(course => {
+        const option = document.createElement("option");
+        option.value = course.id;
+        option.textContent = course.course_name;
+        courseSelect.appendChild(option);
+      });
+    } catch (err) {
+      console.error("Error loading courses:", err);
     }
-  } catch (error) {
-    console.error("Error saving student:", error);
   }
-});
 
-// Attach edit and delete events
-function attachRowEvents() {
-  document.querySelectorAll(".editBtn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.id;
-      editMode = true;
-      editStudentId = id;
+  // Load students into the table
+  async function loadStudents() {
+    try {
+      const res = await fetch("get_students.php");
+      const students = await res.json();
 
-      const response = await fetch(`backend/get_student.php?id=${id}`);
-      const student = await response.json();
+      studentTableBody.innerHTML = "";
+      students.forEach((student, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${student.full_name}</td>
+          <td>${student.matric_no}</td>
+          <td>${student.department}</td>
+          <td>${student.level}</td>
+          <td>${student.email}</td>
+          <td>${student.barcode}</td>
+          <td>${student.date_registered}</td>
+          <td>
+            <button class="delete-btn" data-id="${student.student_id}">Delete</button>
+          </td>
+        `;
+        studentTableBody.appendChild(row);
+      });
 
-      modal.style.display = "block";
-      modalTitle.textContent = "Edit Student";
-      document.getElementById("full_name").value = student.full_name;
-      document.getElementById("email").value = student.email;
-      document.getElementById("course").value = student.course;
-    });
-  });
+      attachDeleteEvents();
+    } catch (err) {
+      console.error("Error loading students:", err);
+    }
+  }
 
-  document.querySelectorAll(".deleteBtn").forEach(btn => {
-    btn.addEventListener("click", async () => {
-      const id = btn.dataset.id;
-      if (!confirm("Are you sure you want to delete this student?")) return;
+  // Add student
+  addForm.addEventListener("submit", e => {
+    e.preventDefault();
 
-      try {
-        const response = await fetch("backend/delete_student.php", {
-          method: "POST",
-          body: new URLSearchParams({ id })
-        });
-        const result = await response.json();
-        alert(result.message);
-        if (result.success) loadStudents();
-      } catch (error) {
-        console.error("Error deleting student:", error);
+    const fullName = document.getElementById("fullName").value.trim();
+    const matricNo = document.getElementById("matricNo").value.trim();
+    const department = document.getElementById("department").value.trim();
+    const level = document.getElementById("level").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!fullName || !matricNo || !department || !level || !email || !password) {
+      return alert("Please fill all fields");
+    }
+
+    // URL-encoded data
+    const data = `full_name=${encodeURIComponent(fullName)}&matric_no=${encodeURIComponent(matricNo)}&department=${encodeURIComponent(department)}&level=${encodeURIComponent(level)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+
+    fetch("add_student.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: data
+    })
+    .then(res => res.json())
+    .then(result => {
+      alert(result.message);
+      if (result.success) {
+        addForm.reset();
+        loadStudents();
       }
+    })
+    .catch(err => console.error("Error adding student:", err));
+  });
+
+  // Delete student
+  function attachDeleteEvents() {
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!confirm("Are you sure you want to delete this student?")) return;
+        const id = btn.dataset.id;
+
+        fetch("delete_student.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: `id=${encodeURIComponent(id)}`
+        })
+        .then(res => res.json())
+        .then(result => {
+          alert(result.message);
+          if (result.success) loadStudents();
+        })
+        .catch(err => console.error("Error deleting student:", err));
+      });
     });
-  });
-}
+  }
 
-// Search functionality
-searchInput.addEventListener("input", () => {
-  const filter = searchInput.value.toLowerCase();
-  const rows = studentTableBody.querySelectorAll("tr");
-  rows.forEach(row => {
-    const name = row.children[1].textContent.toLowerCase();
-    row.style.display = name.includes(filter) ? "" : "none";
-  });
+  // Initialize page
+  loadCourses();
+  loadStudents();
 });
 
-document.addEventListener("DOMContentLoaded", loadStudents);
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   const hamburger = document.getElementById("hamburger");
+//   const sidebar = document.querySelector(".sidebar");
+//   const addForm = document.getElementById("addStudentForm");
+//   const courseSelect = document.getElementById("courseSelect");
+//   const studentTableBody = document.getElementById("studentTableBody");
+
+  // Toggle sidebar on mobile
+  // hamburger.addEventListener("click", () => {
+  //   sidebar.classList.toggle("active");
+  // });
+
+  // Load courses for dropdown
+  // async function loadCourses() {
+  //   try {
+  //     const response = await fetch("get_courses.php");
+  //     const courses = await response.json();
+
+  //     courseSelect.innerHTML = `<option value="">Select Course</option>`;
+  //     courses.forEach(course => {
+  //       const option = document.createElement("option");
+  //       option.value = course.id;
+  //       option.textContent = course.course_name;
+  //       courseSelect.appendChild(option);
+  //     });
+  //   } catch (error) {
+  //     console.error("Error loading courses:", error);
+  //   }
+  // }
+
+  // Load students
+  // async function loadStudents() {
+  //   try {
+  //     const response = await fetch("get_students.php");
+  //     const students = await response.json();
+
+  //     studentTableBody.innerHTML = "";
+  //     students.forEach(student => {
+  //       const row = document.createElement("tr");
+  //       row.innerHTML = `
+  //        <td>${student.student_id}</td>
+  //        <td>${student.full_name}</td>
+  //        <td>${student.matric_no}</td>
+  //        <td>${student.department}</td>
+  //        <td>${student.level}</td>
+  //        <td>${student.email}</td>
+  //        <td>${student.barcode}</td>
+  //        <td>${student.date_registered}</td>
+  //        <td><button class="delete-btn" data-id="${student.id}">Delete</button></td>
+  //         `;
+  //       studentTableBody.appendChild(row);
+  //     });
+
+  //     attachDeleteEvents();
+  //   } catch (error) {
+  //     console.error("Error loading students:", error);
+  //   }
+  // }
+
+  // Add student
+  // addForm.addEventListener("submit", async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData(addForm);
+
+  //   try {
+  //     const response = await fetch("add_student.php", {
+  //       method: "POST",
+  //       body: formData
+  //     });
+  //     const result = await response.json();
+  //     alert(result.message);
+  //     if (result.success) {
+  //       addForm.reset();
+  //       loadStudents();
+  //     }
+  //   } catch (error) {
+  //     console.error("Error adding student:", error);
+  //   }
+  // });
+
+  // Delete student
+  // function attachDeleteEvents() {
+  //   document.querySelectorAll(".deleteBtn").forEach(btn => {
+  //     btn.addEventListener("click", async () => {
+  //       if (!confirm("Are you sure you want to delete this student?")) return;
+  //       const id = btn.dataset.id;
+
+  //       try {
+  //         const response = await fetch("delete_student.php", {
+  //           method: "POST",
+  //           body: new URLSearchParams({ id })
+  //         });
+  //         const result = await response.json();
+  //         alert(result.message);
+  //         if (result.success) loadStudents();
+  //       } catch (error) {
+  //         console.error("Error deleting student:", error);
+  //       }
+  //     });
+  //   });
+  // }
+
+  // Initialize
+//   loadCourses();
+//   loadStudents();
+// });

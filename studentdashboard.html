@@ -1,48 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Student Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard | Smart Attendance</title>
   <link rel="stylesheet" href="studentdashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="logo">Smart Attendance</div>
-    <ul class="nav-links">
-      <li><a href="studentdashboard.html" class="active">Dashboard</a></li>
-      <li><a href="studentattendance.html">Attendance History</a></li>
-      <li><a href="studentprofile.html">Profile</a></li>
-      <li><a href="logout.html">Logout</a></li>
-    </ul>
-  </div>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="logo">🎓</div><div class="title">School</div></div>
+      <nav class="nav">
+         <a class="nav-item active" href="studentdashboard.html"><span>Dashboard</span></a>
+        <a class="nav-item" href="studentattendance.html"><span>My Attendance</span></a>
+        <a class="nav-item" href="studentprofile.html"><span>My Profile</span></a>
+        <a class="nav-item" href="logout.html"><span>Logout</span></a>
+      </nav>
+    </aside>
 
-  <!-- Main Content -->
-  <div class="main-content">
-    <header>
-      <div class="hamburger">&#9776;</div>
-      <h2 id="studentName">Welcome, Student</h2>
-    </header>
+    <main class="main">
+      <header class="topbar">
+        <button id="hamburger" class="burger" aria-label="Toggle menu">☰</button>
+        <h1 class="page-title">Dashboard</h1>
+        <div class="top-right">
+          <div class="student-info">
+            <div class="student-name" id="studentName"></div>
+            <div class="avatar" id="studentAvatar"></div>
+          </div>
+        </div>
+      </header>
 
-    <section class="dashboard-content">
-      <div class="card">
-        <h3>Total Attendance</h3>
-        <p id="attendancePercent">--%</p>
-      </div>
-      <div class="card">
-        <h3>Present Days</h3>
-        <p id="presentDays">--</p>
-      </div>
-      <div class="card">
-        <h3>Absent Days</h3>
-        <p id="absentDays">--</p>
-      </div>
-    </section>
-  </div>
+      <section class="cards">
+        <div class="card metric"><div class="label">Attendance %</div><div class="value" id="attendancePercent"></div></div>
+        <div class="card metric"><div class="label">Total Days Present</div><div class="value" id="totalPresent"></div></div>
+        <div class="card metric"><div class="label">Total Days Absent</div><div class="value" id="totalAbsent"></div></div>
+      </section>
 
-  <script src="studentdashboard.js"></script>
+      <section class="content-grid">
+        <div class="attendance-card">
+          <div class="attendance-header">
+            <h3>Attendance — <span id="currentMonth"></span></h3>
+            <div class="small-note">Barcode: <strong id="studentBarcode"></strong></div>
+          </div>
+          <div class="calendar">
+            <div class="weekdays"><div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div></div>
+            <div class="days" id="daysGrid"></div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3>Attendance Reports</h3>
+          <canvas id="attendanceChart" height="220"></canvas>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <small>&copy; <span id="currentYear"></span> Smart Attendance System</small>
+      </footer>
+    </main>
+</div>
+
+<script src="studentdashboard.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

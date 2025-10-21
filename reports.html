@@ -4,17 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Attendance Reports | Smart Attendance</title>
-  <link rel="stylesheet" href="reports.css">
+  <link rel="stylesheet" href="reports.css" />
 </head>
 <body>
-
   <!-- Navbar -->
   <div class="navbar">
     <h2 class="navbar-brand">Smart Attendance - Admin</h2>
     <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </div>
   </div>
 
@@ -22,53 +19,80 @@
   <div class="sidebar" id="sidebar">
     <ul>
       <li><a href="admin.html">Dashboard</a></li>
-      <li><a href="courses.html">Courses</a></li>
-      <li><a href="students.html">Students</a></li>
+      <li><a href="courses.html">Manage Courses</a></li>
+      <li><a href="students.html">Manage Students</a></li>
       <li><a href="attendance.html">Take Attendance</a></li>
       <li class="active"><a href="reports.html">Reports</a></li>
+       <li><a class="nav-item" href="logout.html"><span>Logout</span></a></li>
     </ul>
-
-    <div class="logout-container">
-      <button id="logoutBtn">Logout</button>
-    </div>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
     <h3>Attendance Reports</h3>
 
+    <!-- Filter Section -->
     <div class="filter-section">
-      <label for="courseFilter">Filter by Course:</label>
-      <select id="courseFilter">
-        <option value="">All Courses</option>
-      </select>
-
-      <label for="dateFilter">Date:</label>
-      <input type="date" id="dateFilter">
-
-      <button id="filterBtn">Filter</button>
+      <h4>Filter Reports</h4>
+      <form id="filterForm">
+        <select id="courseSelect">
+          <option value="">Select Course</option>
+        </select>
+        <input type="date" id="dateInput" />
+        <input type="text" id="searchInput" placeholder="Search by Student or Matric No">
+        <button type="submit">Filter</button>
+      </form>
     </div>
 
+    <!-- Summary Cards -->
+    <div class="summary">
+      <div class="card present">
+        <h5>Present</h5>
+        <p id="presentCount">0</p>
+      </div>
+      <div class="card absent">
+        <h5>Absent</h5>
+        <p id="absentCount">0</p>
+      </div>
+      <div class="card percent">
+        <h5>Attendance %</h5>
+        <p id="attendancePercent">0%</p>
+      </div>
+    </div>
+
+    <!-- Reports Table -->
     <div class="report-table">
+      <h4>Attendance Records</h4>
       <table>
         <thead>
           <tr>
             <th>#</th>
             <th>Student Name</th>
+            <th>Matric No</th>
             <th>Course</th>
             <th>Date</th>
+            <th>Time</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody id="reportTableBody">
-          <!-- Data from backend -->
+          <!-- Populated dynamically -->
         </tbody>
       </table>
     </div>
+
+    <!-- Export Section -->
+    <div class="export-section">
+      <button id="exportCSV">Export CSV</button>
+      <button id="exportPDF">Export PDF</button>
+    </div>
   </div>
 
-  <script src="reports.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<script src="reports.js"></script>
 </body>
 </html>
+
 
 

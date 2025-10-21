@@ -1,61 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register | Smart Attendance System</title>
-  <link rel="stylesheet" href="register.css">
+  <link rel="stylesheet" href="register.css" />
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <h1>Smart Attendance System</h1>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html">Login</a></li>
-        <li><a href="register.html" class="active">Register</a></li>
-      </ul>
-    </nav>
-  </header>
-
   <section class="register-section">
     <div class="register-container">
       <h2>Create an Account</h2>
       <p>Sign up to start using the Smart Attendance System</p>
 
-      <form action="../php/register.php" method="POST" class="register-form">
-        <label for="role">Register As:</label>
-        <!-- <select name="role" id="role" required>
-          <option value="">-- Select Role --</option>
-          <option value="admin">Admin</option>
-          <option value="student">Student</option>
-        </select> -->
+      <form id="registerForm" action="register.php" method="POST" class="register-form" enctype="multipart/form-data">
+        <label for="full_name">Full Name</label>
+        <input type="text" id="full_name" name="full_name" placeholder="Jane Doe" required />
 
-        <label for="fullname">Full Name:</label>
-        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+        <label for="matric_no">Matric Number</label>
+        <input type="text" id="matric_no" name="matric_no" placeholder="MAT/2025/001" required />
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <label for="department">Department</label>
+        <input type="text" id="department" name="department" placeholder="Computer Science" />
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <label for="level">Level</label>
+        <input type="text" id="level" name="level" placeholder="400" />
 
-        <label for="confirm-password">Confirm Password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Create a password" required />
+
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm password" required />
+
+        <label for="photo">Photo (optional)</label>
+        <input type="file" id="photo" name="photo" accept="image/*" />
+
+        <div class="note">
+          <small>After registration you will receive a generated barcode stored in your profile (used for scanning attendance).</small>
+        </div>
 
         <button type="submit" class="btn">Register</button>
       </form>
 
-      <p class="register-text">Already have an account? 
-        <a href="login.html">Login here</a>
-      </p>
+      <p class="register-text">Already have an account? <a href="login.html">Login here</a></p>
     </div>
   </section>
 
-  <footer>
-    <p>&copy; 2025 Smart Attendance System | All Rights Reserved</p>
-  </footer>
-
-  <script src="main.js"></script>
+  <script src="register.js"></script>
 </body>
 </html>
+

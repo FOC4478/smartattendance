@@ -26,7 +26,7 @@
       <li class="active"><a href="students.html">Students</a></li>
       <li><a href="attendance.html">Take Attendance</a></li>
       <li><a href="reports.html">Reports</a></li>
-      <button class="btn btn-outline-light btn-sm" id="logoutBtn">Logout</button>
+       <li><a href="logout.html" class="logout-btn" id="logoutBtn">Logout</a></li>
     </ul>
   </div>
 
@@ -38,8 +38,15 @@
     <div class="student-form">
       <h4>Add New Student</h4>
       <form id="addStudentForm">
-        <input type="text" id="studentName" placeholder="Full Name" required>
-        <input type="text" id="studentID" placeholder="Student ID" required>
+        <input type="text" id="fullName" name="full_name" placeholder="Full Name" required>
+        <input type="text" id="matricNo" name="matric_no" placeholder="Matric No" required>
+        <input type="text" id="department" name="department" placeholder="Department" required>
+        <input type="text" id="level" name="level" placeholder="Level" required>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+
+        <!-- <input type="text" id="studentName" placeholder="Full Name" required>
+        <input type="text" id="studentID" placeholder="Student ID" required> -->
         <select id="courseSelect" required>
           <option value="">Select Course</option>
           <!-- Courses will load dynamically -->
@@ -54,11 +61,15 @@
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+             <th>ID</th>
             <th>Full Name</th>
-            <th>Student ID</th>
-            <th>Course</th>
-            <th>Actions</th>
+            <th>Matric No</th>
+            <th>Department</th>
+            <th>Level</th>
+            <th>Email</th>
+            <th>Barcode</th>
+            <th>Date Registered</th>
+               <th>Action</th>
           </tr>
         </thead>
         <tbody id="studentTableBody">

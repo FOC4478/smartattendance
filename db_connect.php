@@ -1,13 +1,14 @@
 <?php
-$host = 'localhost';
+$host = '127.0.0.1:3309';
+$db   = 'attendances';
 $user = 'root';
 $pass = '';
-$db   = 'smart_attendance';
 
 $conn = new mysqli($host, $user, $pass, $db);
 
 if ($conn->connect_error) {
-  die("Database connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
+
  

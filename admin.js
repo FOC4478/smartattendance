@@ -52,3 +52,5 @@ function loadDashboardData() {
 }
 
 window.addEventListener('load', loadDashboardData);
+
+

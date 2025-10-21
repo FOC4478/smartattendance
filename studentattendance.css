@@ -1,4 +1,147 @@
+/* ===== General Reset ===== */
 * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== Layout ===== */
+body {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8fafb;
+  color: #333;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 250px;
+  background-color: #e8f6ef;
+  padding: 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sidebar-header .logo {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.sidebar h2 {
+  color: #004d40;
+  font-weight: 600;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul a {
+  display: block;
+  text-decoration: none;
+  color: #222;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar ul a:hover,
+.sidebar ul a.active {
+  background-color: #c9e7d9;
+  color: #004d40;
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 30px;
+  transition: margin-left 0.3s ease;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+header .hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  display: none;
+}
+
+/* ===== Table Styling ===== */
+.attendance-section {
+  margin-top: 30px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #e8f6ef;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.loading {
+  text-align: center;
+  color: #777;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  header .hamburger {
+    display: block;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -114,4 +257,4 @@ tbody tr:hover {
   table {
     font-size: 14px;
   }
-}
+} */

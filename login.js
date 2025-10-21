@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         .then(response => response.text())
         .then(data => {
-            if (data.includes('admin.php')) {
-                window.location.href = 'admin.php';
-            } else if (data.includes('studentdashboard.php')) {
-                window.location.href = 'studentdashboard.php';
+            if (data.includes('admin')) {
+                window.location.href = 'admin.html';
+            } else if (data.includes('student')) {
+                window.location.href = 'studentdashboard.html';
             } else {
                 alert(data);
             }
