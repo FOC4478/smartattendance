@@ -83,6 +83,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Initialize live scanner
+const qrReader = new Html5Qrcode("qr-reader");
+
+function startScanner() {
+  qrReader.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    async (decodedText) => {
+      document.getElementById("scan-result").textContent = "Scanned: " + decodedText;
+      barcodeInput.value = decodedText;
+      attendanceForm.dispatchEvent(new Event("submit")); // auto-submit after scan
+    },
+    (errorMessage) => {
+      // ignore scanning errors
+    }
+  ).catch(err => console.error("Scanner error:", err));
+}
+
+startScanner();
+
+
   // Initialize page
   loadCourses();
   loadAttendance();
