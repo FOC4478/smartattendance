@@ -1,10 +1,10 @@
-// Sidebar toggle
-const burger = document.getElementById('hamburger');
+document.addEventListener('DOMContentLoaded', () => {
+  const burger = document.getElementById('burger');
 const sidebar = document.getElementById('sidebar');
 
 // Sidebar toggle for mobile
-  hamburger.addEventListener("click", () => {
-    sidebar.classList.toggle("active");
+  burger.addEventListener("click", () => {
+    sidebar.classList.toggle("show");
   });
 
 // Fetch dashboard data
@@ -16,12 +16,19 @@ fetch('studentdashboard.php')
     // Set student info
     document.getElementById('studentName').innerText = student.full_name;
     document.getElementById('studentBarcode').innerText = student.barcode;
+    document.getElementById('studentQR').src = student.barcode;
     document.getElementById('attendancePercent').innerText = data.attendance_percent + '%';
     document.getElementById('totalPresent').innerText = data.present;
     document.getElementById('totalAbsent').innerText = data.absent;
     document.getElementById('currentMonth').innerText = new Date(data.year, data.month - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
     document.getElementById('currentYear').innerText = data.year;
 
+    // Set QR code image and download link
+     const qrImg = document.getElementById('studentQR');
+     const downloadQR = document.getElementById('downloadQR');
+     qrImg.src = student.barcode;
+     downloadQR.href = student.barcode;
+  
     // Avatar
     const avatarDiv = document.getElementById('studentAvatar');
     if (student.photo) {
@@ -57,4 +64,4 @@ fetch('studentdashboard.php')
     });
   })
   .catch(err => console.error(err));
-
+});

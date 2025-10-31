@@ -21,7 +21,7 @@
 
     <main class="main">
       <header class="topbar">
-        <button id="hamburger" class="burger" aria-label="Toggle menu">☰</button>
+        <button id="burger" class="burger" aria-label="Toggle menu">☰</button>
         <h1 class="page-title">Dashboard</h1>
         <div class="top-right">
           <div class="student-info">
@@ -41,7 +41,10 @@
         <div class="attendance-card">
           <div class="attendance-header">
             <h3>Attendance — <span id="currentMonth"></span></h3>
-            <div class="small-note">Barcode: <strong id="studentBarcode"></strong></div>
+            <!-- <div class="small-note">
+            Barcode: <strong id="studentBarcode"></strong><br>
+          <img id="studentQR" src="" alt="Student QR Code" style="margin-top:10px; width:150px; height:150px;">
+         </div> -->
           </div>
           <div class="calendar">
             <div class="weekdays"><div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div></div>
@@ -53,6 +56,15 @@
           <h3>Attendance Reports</h3>
           <canvas id="attendanceChart" height="220"></canvas>
         </div>
+        <div class="small-note">Barcode: <strong id="studentBarcode"></strong><br>
+         <div class="qr-section">
+         <h3>Student QR Code</h3>
+         <img id="studentQR" src="" alt="Student QR Code" class="qr-image">
+          <br>
+         <a id="downloadQR" href="#" download class="download-btn">Download QR Code</a>
+         </div>
+
+         </div>
       </section>
 
       <footer class="footer">
