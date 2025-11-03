@@ -47,11 +47,11 @@ if (!password_verify($password, $user['password'])) {
 if ($role === 'student') {
     $_SESSION['student_id'] = $user['student_id'];
     $_SESSION['student_name'] = $user['full_name'];
-    $redirect = 'studentdashboard.php';
+    $redirect = 'studentdashboard.html';
 } else {
     $_SESSION['admin_id'] = $user['admin_id'];
     $_SESSION['admin_name'] = $user['full_name'];
-    $redirect = 'admin.php';
+    $redirect = 'admin.html';
 }
 
 echo json_encode([
