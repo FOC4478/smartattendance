@@ -15,25 +15,6 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
-    // echo "Database connected successfully!";
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
-?>
-
-
-
-<!-- 
-// $host = '127.0.0.1:3309';
-// $db   = 'attendances';
-// $user = 'root';
-// $pass = '';
-
-// $conn = new mysqli($host, $user, $pass, $db);
-
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
-// ?> 
-
-  -->
