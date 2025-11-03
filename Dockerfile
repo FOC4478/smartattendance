@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libpng-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql calendar
 
 # Copy project files into the web directory
 COPY . /var/www/html/
@@ -19,5 +19,6 @@ RUN mkdir -p /var/www/html/uploads /var/www/html/qrcodes \
 
 # Expose port 80 for web traffic
 EXPOSE 80
+
 
 
