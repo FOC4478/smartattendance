@@ -1,4 +1,5 @@
 <?php
+// <?php
 session_start();
 include 'db_connect.php';
 include_once __DIR__ . '/phpqrcodeqrlib/qrlib.php'; 
@@ -38,15 +39,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 // Check if matric_no or email exists
 $checkSql = "SELECT student_id FROM students WHERE matric_no = ? OR email = ? LIMIT 1";
-$stmt = $conn->prepare($checkSql);
-$stmt->bind_param("ss", $matric_no, $email);
-$stmt->execute();
-$stmt->store_result();
-if ($stmt->num_rows > 0) {
-    $stmt->close();
+$stmt = $pdo->prepare($checkSql);
+$stmt->execute([$matric_no, $email]);
+if ($stmt->fetch()) {
     js_alert_and_back('A user with that matric number or email already exists.');
 }
-$stmt->close();
 
 // Hash password
 $hashed = password_hash($password, PASSWORD_DEFAULT);
@@ -72,14 +69,9 @@ if (!empty($_FILES['photo']['name'])) {
 // Insert student record
 $insertSql = "INSERT INTO students (full_name, matric_no, department, level, email, password, photo)
               VALUES (?, ?, ?, ?, ?, ?, ?)";
-$ins = $conn->prepare($insertSql);
-$ins->bind_param("sssssss", $full_name, $matric_no, $department, $level, $email, $hashed, $photo_filename);
-
-if (!$ins->execute()) {
-    js_alert_and_back('Failed to register. Please try again.');
-}
-$student_id = $ins->insert_id;
-$ins->close();
+$stmt = $pdo->prepare($insertSql);
+$stmt->execute([$full_name, $matric_no, $department, $level, $email, $hashed, $photo_filename]);
+$student_id = $pdo->lastInsertId();
 
 // ✅ Generate QR code (based on matric number)
 $qrDir = __DIR__ . '/qrcodes/';
@@ -91,12 +83,8 @@ QRcode::png($qrData, $qrFile, QR_ECLEVEL_L, 5);
 
 // Save QR path in the database
 $barcodePath = 'qrcodes/student_' . $student_id . '.png';
-$update = $conn->prepare("UPDATE students SET barcode = ? WHERE student_id = ?");
-$update->bind_param("si", $barcodePath, $student_id);
-$update->execute();
-$update->close();
-
-$conn->close();
+$update = $pdo->prepare("UPDATE students SET barcode = ? WHERE student_id = ?");
+$update->execute([$barcodePath, $student_id]);
 
 // Success message and redirect
 echo "<script>

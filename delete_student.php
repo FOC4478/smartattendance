@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-include 'db_connect.php';
+include 'db_connect.php'; // $pdo
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
@@ -15,16 +15,18 @@ if ($id <= 0) {
     exit;
 }
 
-// Delete student
-$stmt = $conn->prepare("DELETE FROM students WHERE student_id = ?");
-$stmt->bind_param("i", $id);
+try {
+    $stmt = $pdo->prepare("DELETE FROM students WHERE student_id = ?");
+    $success = $stmt->execute([$id]);
 
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'Student deleted successfully']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Error deleting student: ' . $stmt->error]);
+    if ($success) {
+        echo json_encode(['success' => true, 'message' => 'Student deleted successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error deleting student']);
+    }
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+?>
 
-$stmt->close();
-$conn->close();
 
