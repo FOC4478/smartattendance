@@ -4,14 +4,36 @@ $user = 'udoawlwkfiuin9o3';
 $pass = '4DpuR2VCtxbLgj9hYfzw';
 $db   = 'blqdfarata3zapjyv6yn';
 $port = 3306;
+$charset = 'utf8mb4';
 
-$conn = new mysqli($host, $user, $pass, $db, $port);
+$dsn = "mysql:host=$host;port=$port;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+    // echo "Database connected successfully!";
+} catch (PDOException $e) {
+    die("Database connection failed: " . $e->getMessage());
 }
-// echo "Database connected successfully!";
 ?>
 
 
- 
+
+<!-- 
+// $host = '127.0.0.1:3309';
+// $db   = 'attendances';
+// $user = 'root';
+// $pass = '';
+
+// $conn = new mysqli($host, $user, $pass, $db);
+
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
+// ?> 
+
+  -->
