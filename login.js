@@ -6,19 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const formData = new FormData(form);
 
-       fetch('login.php', {
-       method: 'POST',
-       body: formData
-       })
-
-        .then(response => response.text())
+        fetch('login.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
         .then(data => {
-            if (data.includes('admin')) {
-                window.location.href = 'admin.html';
-            } else if (data.includes('student')) {
-                window.location.href = 'studentdashboard.html';
+            if (data.success) {
+                window.location.href = data.redirect;
             } else {
-                alert(data);
+                alert(data.message);
             }
         })
         .catch(error => {
@@ -27,3 +24,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
