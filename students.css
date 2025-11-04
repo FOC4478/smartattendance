@@ -1,3 +1,4 @@
+/* ===== GLOBAL RESET ===== */
 * {
   margin: 0;
   padding: 0;
@@ -9,58 +10,67 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f4f6f8;
-  color: #333;;
+  background-color: #f5f7fa;
+  color: #333;
+  overflow: hidden; /* Prevent full-page scrollbars */
 }
 
-/* ===== Navbar ===== */
+/* ===== NAVBAR ===== */
 .navbar {
-  background-color: #2c3e50;
+  background: linear-gradient(135deg, #2c3e50, #34495e);
   color: #fff;
   padding: 15px 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar h2 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
 }
 
-
+/* ===== BUTTONS ===== */
 .btn {
   background-color: #e74c3c;
   color: #fff;
-  border: 1px solid #fff;
+  border: none;
   border-radius: 6px;
-  padding: 6px 12px;
+  padding: 8px 14px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  transition: 0.3s ease;
 }
 
 .btn:hover {
- background-color: #c0392b;
+  background-color: #c0392b;
+  transform: scale(1.03);
 }
 
-/* ===== Sidebar ===== */
+/* ===== SIDEBAR ===== */
 .sidebar {
   background-color: #34495e;
-  width: 220px;
-  height: 100%;
+  width: 240px;
+  height: calc(100vh - 60px);
   position: fixed;
   top: 60px;
   left: 0;
-  overflow-y: auto;
   transition: all 0.3s ease;
+  overflow: hidden; /* Prevent scrollbar */
 }
 
 .sidebar ul {
   list-style: none;
-   padding: 20px 0;
+  padding: 20px 0;
 }
 
 .sidebar ul li {
-  margin: 10px 0;
+  margin: 5px 0;
 }
 
 .sidebar ul li a {
@@ -69,50 +79,70 @@ body {
   display: block;
   padding: 12px 20px;
   border-left: 4px solid transparent;
-  transition: all 0.3s ease;
+  transition: 0.3s ease;
+  font-weight: 500;
 }
 
-
-.sidebar ul li.active,
-.sidebar ul li a:hover {
- background-color: #2c3e50;
-
+.sidebar ul li a:hover,
+.sidebar ul li.active a {
+  background-color: #2c3e50;
+  border-left-color: #1abc9c;
 }
 
-/* ===== Main Content ===== */
+/* ===== MAIN CONTENT ===== */
 .main-content {
-  margin-left: 240px;
+  margin-left: 260px;
   padding: 100px 40px 40px;
   transition: margin-left 0.3s ease;
+  height: calc(100vh - 100px);
+  overflow-y: auto; /* Only this area scrolls */
+  scrollbar-width: none;
+}
+
+.main-content::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
 }
 
 .main-content h3 {
   color: #2c3e50;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   font-size: 1.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border-bottom: 3px solid #1abc9c;
+  display: inline-block;
+  padding-bottom: 6px;
 }
 
-/* ===== Student Form ===== */
-.student-form {
-  background: white;
+/* ===== STUDENT FORM & TABLE (UNIFORM WIDTH) ===== */
+.student-form,
+.student-table {
+  background: #fff;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto 35px;
   animation: fadeIn 0.8s ease;
 }
 
-.student-form h4 {
+.student-form h4,
+.student-table h4 {
   margin-bottom: 15px;
   color: #1abc9c;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #ecf0f1;
+  padding-bottom: 5px;
 }
 
+/* ===== STUDENT FORM CONTENT ===== */
 .student-form form {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
 }
 
 .student-form input,
@@ -123,21 +153,23 @@ body {
   border-radius: 6px;
   outline: none;
   transition: 0.3s;
+  font-size: 0.95rem;
 }
 
 .student-form input:focus,
 .student-form select:focus {
   border-color: #1abc9c;
-  box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+  box-shadow: 0 0 5px rgba(26, 188, 156, 0.4);
 }
 
 .student-form button {
-  padding: 10px 20px;
+  padding: 10px 24px;
   background: #1abc9c;
   border: none;
   color: white;
   border-radius: 6px;
   cursor: pointer;
+  font-weight: 500;
   transition: 0.3s;
 }
 
@@ -146,22 +178,9 @@ body {
   transform: translateY(-2px);
 }
 
-/* ===== Student Table ===== */
-.student-table {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-  animation: slideUp 0.8s ease;
-}
-
-.student-table h4 {
-  margin-bottom: 15px;
-  color: #1abc9c;
-}
-
+/* ===== STUDENT TABLE CONTENT ===== */
 .student-table table {
-  width: 100%;
+  /* width: 100%; */
   border-collapse: collapse;
 }
 
@@ -170,11 +189,13 @@ body {
   padding: 12px 10px;
   text-align: left;
   border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
 }
 
 .student-table th {
   background: #ecf0f1;
   color: #2c3e50;
+  font-weight: 600;
 }
 
 .student-table tr:hover {
@@ -182,7 +203,7 @@ body {
   transition: 0.3s;
 }
 
-/* ===== Buttons inside table ===== */
+/* ===== ACTION BUTTONS ===== */
 .action-btn {
   padding: 6px 12px;
   border: none;
@@ -190,6 +211,7 @@ body {
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 0.9rem;
 }
 
 .edit-btn {
@@ -208,36 +230,31 @@ body {
   background: #c0392b;
 }
 
-/* ===== Hamburger Menu ===== */
+/* ===== HAMBURGER MENU ===== */
 .hamburger {
   display: none;
   flex-direction: column;
   cursor: pointer;
-  gap: 4px;
+  gap: 5px;
 }
 
 .hamburger span {
-  width: 24px;
+  width: 26px;
   height: 3px;
   background: white;
   border-radius: 2px;
 }
 
-/* ===== Animations ===== */
+/* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== Responsive Design ===== */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 900px) {
   .sidebar {
-    left: -240px;
+    left: -260px;
   }
 
   .sidebar.active {
@@ -257,3 +274,27 @@ body {
     flex-direction: column;
   }
 }
+
+@media (max-width: 500px) {
+  .navbar h2 {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .main-content {
+    padding: 80px 20px;
+  }
+
+  .student-form,
+  .student-table {
+    padding: 20px;
+    width: 100%;
+  }
+}
+
+
+
