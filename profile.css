@@ -1,31 +1,62 @@
-/* Base */
-body {
+/* ===== Base Styles ===== */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  display: flex;
-  background-color: #f4fdf8;
-  min-height: 100vh;
 }
 
-/* Sidebar */
+body {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f4fdf8;
+  color: #043927;
+}
+
+/* ===== Sidebar ===== */
 .sidebar {
   width: 230px;
   background-color: #e6f4ea;
   color: #043927;
   padding: 20px;
-  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+  transform: translateX(0);
   transition: transform 0.3s ease;
-  min-height: 100vh;
+  z-index: 1000;
+}
+
+.sidebar.active {
+  transform: translateX(-250px); /* slide out on mobile */
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-weight: 700;
+  justify-content: space-between;
   margin-bottom: 40px;
+  font-weight: 700;
 }
 
+.brand .logo {
+  font-size: 28px;
+}
+
+.brand .title {
+  font-size: 20px;
+}
+
+.close-btn {
+  font-size: 26px;
+  cursor: pointer;
+  color: #043927;
+  display: none; /* only show on mobile */
+}
+
+/* Sidebar navigation */
 .nav {
   display: flex;
   flex-direction: column;
@@ -49,15 +80,12 @@ body {
   font-weight: 600;
 }
 
-/* Sidebar toggle */
-.sidebar.active {
-  transform: translateX(-230px);
-}
-
-/* Main content */
+/* ===== Main Content ===== */
 .main-content {
   flex: 1;
+  margin-left: 230px;
   padding: 25px;
+  transition: margin-left 0.3s ease;
   animation: fadeIn 0.8s ease;
 }
 
@@ -71,12 +99,12 @@ body {
 .hamburger {
   background: none;
   border: none;
-  font-size: 26px;
+  font-size: 28px;
   cursor: pointer;
-  display: none;
+  display: none; /* visible only on mobile */
 }
 
-/* Profile card */
+/* ===== Profile Card ===== */
 .profile-container {
   display: flex;
   justify-content: center;
@@ -99,8 +127,8 @@ body {
 }
 
 .profile-photo {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 3px solid #b8e6ce;
   object-fit: cover;
@@ -121,13 +149,12 @@ form {
 
 label {
   font-weight: 600;
-  color: #043927;
 }
 
 input {
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 8px;
+  border: 1px solid #ccc;
   outline: none;
   transition: border 0.3s ease;
 }
@@ -155,21 +182,44 @@ input:focus {
   margin-top: 15px;
   text-align: center;
   font-weight: 500;
+  color: #e74c3c;
 }
 
-/* Animations */
+/* ===== Animations ===== */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
 @keyframes slideUp {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Responsive */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .hamburger { display: block; }
-  .sidebar { position: absolute; z-index: 1000; }
+  .hamburger {
+    display: block;
+  }
+
+  .sidebar {
+    position: absolute;
+    transform: translateX(-100%);
+    height: 100%;
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .close-btn {
+    display: block;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
 }
+
 

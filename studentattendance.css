@@ -23,27 +23,46 @@ body {
   left: 0;
   top: 0;
   bottom: 0;
+  display: flex;
+  flex-direction: column;
   transition: transform 0.3s ease;
+  z-index: 1000;
 }
 
+/* Sidebar Header */
 .sidebar-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 30px;
 }
 
 .sidebar-header .logo {
-  font-size: 24px;
-  margin-right: 10px;
+  font-size: 28px;
 }
 
-.sidebar h2 {
+.sidebar-header h2 {
+  font-size: 20px;
   color: #004d40;
   font-weight: 600;
+  margin-left: 10px;
+  flex-grow: 1;
 }
 
+/* Close Button */
+.close-btn {
+  font-size: 28px;
+  cursor: pointer;
+  color: #004d40;
+  display: none; /* show on mobile */
+}
+
+/* Sidebar Menu */
 .sidebar ul {
   list-style: none;
+  padding-left: 0;
+  margin: 0;
+  flex-grow: 1;
 }
 
 .sidebar ul a {
@@ -70,21 +89,23 @@ body {
   transition: margin-left 0.3s ease;
 }
 
+/* Header */
 header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 header .hamburger {
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
-  display: none;
+  display: none; /* hidden on desktop */
 }
 
-/* ===== Table Styling ===== */
+/* ===== Attendance Table ===== */
 .attendance-section {
-  margin-top: 30px;
+  margin-top: 20px;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -113,6 +134,7 @@ th, td {
 
 /* ===== Responsive Design ===== */
 @media (max-width: 768px) {
+  /* Sidebar hidden by default */
   .sidebar {
     transform: translateX(-100%);
   }
@@ -121,140 +143,33 @@ th, td {
     transform: translateX(0);
   }
 
+  /* Show close button */
+  .close-btn {
+    display: block;
+  }
+
+  /* Main content full width */
   .main-content {
     margin-left: 0;
   }
 
+  /* Hamburger visible */
   header .hamburger {
     display: block;
   }
-}
 
-
-
-
-
-
-
-
-
-
-
-
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body {
-  display: flex;
-  height: 100vh;
-  background: #f4f7fa;
-}
-
-.sidebar {
-  width: 250px;
-  background: #1a237e;
-  color: #fff;
-  transition: 0.3s ease;
-  padding: 20px;
-}
-
-.sidebar .logo {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
-.sidebar .nav-links {
-  list-style: none;
-}
-
-.sidebar .nav-links li {
-  margin: 20px 0;
-}
-
-.sidebar .nav-links a {
-  text-decoration: none;
-  color: #fff;
-  display: block;
-  padding: 10px;
-  border-radius: 8px;
-  transition: 0.3s;
-}
-
-.sidebar .nav-links a:hover,
-.sidebar .nav-links a.active {
-  background: #3949ab;
-}
-
-.main-content {
-  flex: 1;
-  padding: 20px;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.hamburger {
-  font-size: 24px;
-  cursor: pointer;
-  display: none;
-}
-
-.attendance-section {
-  margin-top: 30px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-thead {
-  background: #1a237e;
-  color: #fff;
-}
-
-th, td {
-  padding: 12px 15px;
-  text-align: left;
-}
-
-tbody tr:nth-child(even) {
-  background: #f2f2f2;
-}
-
-tbody tr:hover {
-  background: #e8eaf6;
-}
-
-@media (max-width: 768px) {
-  .sidebar {
+  /* Optional overlay */
+  body.sidebar-open::before {
+    content: "";
     position: fixed;
-    left: -250px;
     top: 0;
-    height: 100%;
-    z-index: 100;
-  }
-
-  .sidebar.active {
     left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
+    z-index: 500;
   }
+}
 
-  .hamburger {
-    display: block;
-  }
 
-  table {
-    font-size: 14px;
-  }
-} */
+

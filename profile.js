@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.getElementById("hamburger");
   const sidebar = document.getElementById("sidebar");
+  const closeBtn = document.getElementById('closeBtn');
   const form = document.getElementById("profile-form");
   const statusMsg = document.getElementById("status-msg");
   const profilePhoto = document.getElementById("profile-photo");
@@ -9,6 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   hamburger.addEventListener("click", () => {
     sidebar.classList.toggle("active");
   });
+  // Close sidebar
+    closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+    });
 
   // Load student profile
   fetch("profile.php")

@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.getElementById('hamburger');
     const sidebar = document.getElementById('sidebar');
+    const closeBtn = document.getElementById('closeBtn');
      const tableBody = document.getElementById('attendanceData');
      
-    hamburger.addEventListener('click', () => sidebar.classList.toggle('active'));
+       hamburger.addEventListener('click', () => {
+        sidebar.classList.add('active');
+    });
+
+    // Close sidebar
+    closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+    });
 
     fetch('studentattendance.php')
         .then(res => res.json())

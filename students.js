@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.getElementById("hamburger");
   const sidebar = document.querySelector(".sidebar");
+   const closeBtn = document.getElementById('closeBtn');
   const addForm = document.getElementById("addStudentForm");
   const courseSelect = document.getElementById("courseSelect");
   const studentTableBody = document.getElementById("studentTableBody");
@@ -9,6 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   hamburger.addEventListener("click", () => {
     sidebar.classList.toggle("active");
   });
+
+   // Close sidebar
+    closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+    });
 
   // Load courses into the dropdown
   async function loadCourses() {

@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   const burger = document.getElementById('burger');
 const sidebar = document.getElementById('sidebar');
+ const closeBtn = document.getElementById('closeBtn');
 
 // Sidebar toggle for mobile
   burger.addEventListener("click", () => {
     sidebar.classList.toggle("show");
   });
+   
+    // Close sidebar
+    closeBtn.addEventListener('click', () => {
+        sidebar.classList.remove('show');
+    });
 
 // Fetch dashboard data
 fetch('studentdashboard.php')
