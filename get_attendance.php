@@ -12,8 +12,10 @@ try {
     $stmt = $pdo->query($sql);
     $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode($records);
+    // Always return a JSON array (empty array if no records)
+    echo json_encode($records ?: []);
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    // Return an object describing the error so frontend can detect it
+    echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
