@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-include 'db_connect.php'; // Make sure this file initializes $pdo
+include 'db_connect.php';
 
 try {
     $query = "
@@ -11,17 +11,20 @@ try {
             a.date_marked,
             a.status
         FROM attendance a
-        JOIN students s ON a.student_id = s.id
-        JOIN courses c ON a.course_id = c.id
-        ORDER BY a.date_marked DESC
+        JOIN students s ON a.student_id = s.student_id
+        JOIN courses c ON a.course_id = c.course_id
+        ORDER BY a.date_marked DESC, a.time_marked DESC
     ";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode($records);
+    // Always return an array
+    echo json_encode($records ?? []);
 } catch (PDOException $e) {
-    echo json_encode(['error' => $e->getMessage()]);
+    // Return empty array on error
+    echo json_encode([]);
 }
 ?>
+

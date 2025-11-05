@@ -37,12 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("get_attendance.php");
       const records = await res.json();
-      console.log("Attendance response:", records); // <-- inspect this in console
+      console.log("Attendance response:", records);
 
       // Validate response is an array
       if (!Array.isArray(records)) {
         console.error("Expected array from get_attendance.php but received:", records);
-        // Optionally show user-friendly message in table
         attendanceTableBody.innerHTML = `<tr><td colspan="7">Unable to load attendance (see console).</td></tr>`;
         return;
       }
@@ -57,11 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${index + 1}</td>
-          <td>${r.full_name}</td>
+          <td>${r.student_name}</td>
           <td>${r.course_name}</td>
-          <td>${r.barcode_scanned}</td>
+          <td>${r.barcode_scanned ?? '-'}</td>
           <td>${r.date_marked}</td>
-          <td>${r.time_marked}</td>
+          <td>${r.time_marked ?? '-'}</td>
           <td>${r.status}</td>
         `;
         attendanceTableBody.appendChild(row);
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Clean common unwanted characters (trim, remove whitespace/newlines)
+    // Clean common unwanted characters (whitespace/newlines)
     barcode = barcode.replace(/\s+/g, "");
 
     const data = `barcode=${encodeURIComponent(barcode)}&course_id=${encodeURIComponent(courseId)}`;
@@ -94,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
         body: data
       });
 
-      // If backend returns non-JSON (HTML/warnings), this will throw and land in catch
       const result = await res.json();
       console.log("Mark attendance response:", result);
       alert(result.message ?? "No message from server");
@@ -110,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Handle form submission (prevent reload)
+  // Handle form submission
   attendanceForm.addEventListener("submit", (e) => {
     e.preventDefault();
     submitAttendance();
@@ -124,11 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
       { facingMode: "environment" },
       { fps: 10, qrbox: 250 },
       async (decodedText) => {
-        console.log("Scanned text:", decodedText); // debug: what the scanner reads
+        console.log("Scanned text:", decodedText);
         document.getElementById("scan-result").textContent = "Scanned: " + decodedText;
-        barcodeInput.value = decodedText;
-        // Directly call submitAttendance (more reliable than dispatchEvent)
-        await submitAttendance();
+        barcodeInput.value = decodedText.replace(/\s+/g, ""); // clean barcode
+        await submitAttendance(); // directly submit scanned barcode
       },
       (errorMessage) => {
         // ignore scanning errors
@@ -136,44 +133,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ).catch(err => console.error("Scanner error:", err));
   }
 
-  // Initialize page
+  // Initialize everything
   loadCourses();
   loadAttendance();
   startScanner();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
