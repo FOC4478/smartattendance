@@ -18,17 +18,18 @@ if (empty($barcode) || empty($course_id)) {
 
 try {
     // ✅ 1. Check if student exists (adjusted column names)
-    $stmt = $pdo->prepare("SELECT id, full_name FROM students WHERE barcode = ?");
-    $stmt->execute([$barcode]);
+    $stmt = $pdo->prepare("SELECT student_id, full_name FROM students WHERE barcode = ?");
+   $stmt->execute([$barcode]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$student) {
-        echo json_encode(['success' => false, 'message' => 'Student not found']);
-        exit;
-    }
+    echo json_encode(['success' => false, 'message' => 'Student not found']);
+    exit;
+}
 
-    $student_id = $student['id'];
-    $student_name = $student['full_name'];
+     $student_id = $student['student_id']; // <-- use correct column name
+     $student_name = $student['full_name'];
+
 
     // ✅ 2. Check if attendance already marked today
     $date = date('Y-m-d');
@@ -57,7 +58,7 @@ try {
     // ✅ 4. Return success message
     if ($success) {
         // Get course name
-        $course_stmt = $pdo->prepare("SELECT course_name FROM courses WHERE id = ?");
+        $course_stmt = $pdo->prepare("SELECT course_name FROM courses WHERE course_id  = ?");
         $course_stmt->execute([$course_id]);
         $course_name = $course_stmt->fetch(PDO::FETCH_ASSOC)['course_name'] ?? 'Unknown';
 
