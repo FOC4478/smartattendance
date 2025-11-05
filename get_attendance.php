@@ -1,21 +1,27 @@
 <?php
 header('Content-Type: application/json');
-include 'db_connect.php'; 
+include 'db_connect.php'; // Make sure this file initializes $pdo
 
 try {
-    $sql = "SELECT a.attendance_id, s.full_name, c.course_name, a.barcode_scanned, a.date_marked, a.time_marked, a.status
-            FROM attendance a
-            JOIN students s ON a.student_id = s.student_id
-            JOIN courses c ON a.course_id = c.course_id
-            ORDER BY a.date_marked DESC, a.time_marked DESC";
+    $query = "
+        SELECT 
+            a.attendance_id,
+            s.full_name AS student_name,
+            c.course_name AS course_name,
+            a.date_marked,
+            a.status
+        FROM attendance a
+        JOIN students s ON a.student_id = s.id
+        JOIN courses c ON a.course_id = c.id
+        ORDER BY a.date_marked DESC
+    ";
 
-    $stmt = $pdo->query($sql);
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
     $records = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Always return a JSON array (empty array if no records)
-    echo json_encode($records ?: []);
-} catch (Exception $e) {
-    // Return an object describing the error so frontend can detect it
+    echo json_encode($records);
+} catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);
 }
 ?>
